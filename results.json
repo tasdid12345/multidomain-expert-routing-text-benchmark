@@ -1,0 +1,30 @@
+{
+  "question": "Does soft routing with a global fallback beat hard routing to a single domain expert when a domain classifier sends multi-domain text to experts?",
+  "method": "Hard-routing mixture of 4 domain experts (20-class LR per domain) vs. router-probability-weighted soft blend with a global LR fallback when router confidence is below a CV-selected threshold; TF-IDF features; macro-F1 over 20 newsgroups.",
+  "dataset": {
+    "name": "20 Newsgroups (scikit-learn fetch_20newsgroups, subset=all, headers/footers/quotes removed)",
+    "source_url": "https://scikit-learn.org/stable/datasets/real_world.html#the-20-newsgroups-text-dataset",
+    "n_rows": 18846,
+    "n_train": 14134,
+    "n_test": 4712,
+    "same_as_paper": false,
+    "baseline_is_papers_method": false
+  },
+  "metric_name": "macro-F1 over 20 classes",
+  "higher_is_better": true,
+  "baseline": "Hard routing: logistic-regression domain router sends each test text to exactly one per-domain expert whose label is final.",
+  "improved": "Soft routing: expert probabilities weighted by router probabilities, with fallback to a global logistic regression when router confidence is below a threshold chosen by 5-fold CV on training data.",
+  "metrics": {
+    "baseline_score": 0.7359874398210458,
+    "improved_score": 0.7510543044280591,
+    "improvement": 0.015066864607013342,
+    "baseline_f1": 0.7359874398210458,
+    "improved_f1": 0.7510543044280591,
+    "baseline_accuracy": 0.7412988115449916,
+    "improved_accuracy": 0.7574278438030561,
+    "router_error_rate": 0.13242784380305603,
+    "fallback_rate": 0.4664685908319185,
+    "selected_threshold": 0.9
+  },
+  "notes": "Single run (logistic regression is deterministic given seed 42; no seed sweep needed). Deviation: the official train/test split is ~40% test, so the corpus was pooled and split 75/25 stratified with seed 42 to meet the 20-30% test-size rule. Test texts are single-domain, so the multi-domain setting is simulated only through router errors. Domain grouping is a fixed, hand-chosen mapping. Backdoor-aware continual learning from the paper is not reproduced. Headers, footers and quotes are removed to reduce metadata leakage."
+}
