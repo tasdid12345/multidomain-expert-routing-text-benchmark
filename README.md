@@ -21,6 +21,27 @@ python analysis.py
 
 Results are written to `results.json`. Charts are saved to `figures/`.
 
+## Results (latest run)
+
+On 20 Newsgroups (macro-F1 over 20 classes, 4,712 held-out test texts), soft routing with a global fallback reached 75.1% versus 73.6% for a standard hard-routing mixture of domain experts, a small single-run gain of 1.5 points.
+
+| Metric | Value |
+|---|---|
+| baseline_score | 0.736 |
+| improved_score | 0.7511 |
+| improvement | 0.01507 |
+| baseline_f1 | 0.736 |
+| improved_f1 | 0.7511 |
+| baseline_accuracy | 0.7413 |
+| improved_accuracy | 0.7574 |
+| router_error_rate | 0.1324 |
+| fallback_rate | 0.4665 |
+| selected_threshold | 0.9 |
+
+Run on 2026-10-20. Full output: [results.json](results.json) · [run.log](run.log)
+
+Notes: Single run (logistic regression is deterministic given seed 42; no seed sweep needed). Deviation: the official train/test split is ~40% test, so the corpus was pooled and split 75/25 stratified with seed 42 to meet the 20-30% test-size rule. Test texts are single-domain, so the multi-domain setting is simulated only through router errors. Domain grouping is a fixed, hand-chosen mapping. Backdoor-aware continual learning from the paper is not reproduced. Headers, footers and quotes are removed to reduce metadata leakage.
+
 ## Reference
 
 This project is motivated by the following paper:
